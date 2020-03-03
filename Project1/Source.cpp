@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include "GainRatio.h"
+#include "neiro1.h"
 
 #define attrCount 29
 #define classCount 3
@@ -53,17 +53,27 @@ int main(int argc, char* argv[]) {
 		else
 			row++;
 	}
+	in.close();
 	//union columns
 	for (auto it = values.begin(); it != values.end(); ++it) {
 		if ((*it)[allCount - 2] == 0 && (*it)[allCount - 1] != 0)
 			(*it)[allCount - 2] = (*it)[allCount - 1] * 1000;
 	}
-
+	//gainRatio
+	float* gR = gainRatio(values, title);
+	std::ofstream out("gainRatio.txt");
+	for (int i = 0; i < totalCount - 2; ++i)
+		out << title[i] << "\t" << gR[i] << std::endl;
+	out.close();
 
 
 	system("pause");
 	for (auto it = values.begin(); it != values.end(); ++it)
 		delete[] (*it);
 	values.clear();
+	free(gR);
+	title.clear();
+	ss.clear();
+
 	return 0;
 }

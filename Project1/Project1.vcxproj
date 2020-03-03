@@ -126,6 +126,9 @@
   <ItemGroup>
     <ClInclude Include="GainRatio.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="gainRatio.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
