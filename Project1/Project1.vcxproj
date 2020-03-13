@@ -116,7 +116,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Correlation.cpp" />
     <ClCompile Include="GainRatio.cpp" />
+    <ClCompile Include="Histogram.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -124,7 +126,9 @@
     <None Include="dataset.xlsx" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Correlation.h" />
     <ClInclude Include="GainRatio.h" />
+    <ClInclude Include="Histogram.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="gainRatio.txt" />

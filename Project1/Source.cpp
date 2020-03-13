@@ -3,7 +3,11 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include "neiro1.h"
+#include <algorithm>
+#include <array>
+#include "GainRatio.h"
+#include "Histogram.h"
+#include "Correlation.h"
 
 #define attrCount 29
 #define classCount 3
@@ -15,6 +19,16 @@ bool isFloat(std::string s) {
 	float dummy;
 	iss >> std::noskipws >> dummy;
 	return iss && iss.eof();     // Result converted to bool
+}
+
+float** transponate(std::vector<float*> table) {
+	float** matrix = new float*[attrCount];
+	for (int column = 0; column < attrCount; ++column) {
+		matrix[column] = new float[table.size()];
+		for (int row = 0; row < table.size(); ++row)
+			matrix[column][row] = table.at(row)[column];
+	}
+	return matrix;
 }
 
 int main(int argc, char* argv[]) {
@@ -62,10 +76,22 @@ int main(int argc, char* argv[]) {
 	//gainRatio
 	float* gR = gainRatio(values, title);
 	std::ofstream out("gainRatio.txt");
-	for (int i = 0; i < totalCount - 2; ++i)
-		out << title[i] << "\t" << gR[i] << std::endl;
+	//greater sorting gainRatio
+	std::vector<std::pair<float, std::string>> sorting;
+	for (int i = 0; i < attrCount; ++i)
+		sorting.push_back(std::pair<float, std::string>(gR[i], title[i]));
+	std::sort(sorting.begin(), sorting.end());
+	for (auto it = sorting.end() - 1; it != sorting.begin(); --it)
+		out << it->second << "\t" << it->first << std::endl;
+	out << sorting.begin()->second << "\t" << sorting.begin()->first << std::endl;
 	out.close();
 
+	//histograms
+	for (int i = 0; i < attrCount; ++i)
+		calculateHistogram(values, i);
+
+	//correlation
+	runCorrelations(transponate(values));
 
 	system("pause");
 	for (auto it = values.begin(); it != values.end(); ++it)

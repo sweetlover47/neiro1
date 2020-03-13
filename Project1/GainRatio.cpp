@@ -1,4 +1,4 @@
-﻿#include "neiro1.h"
+﻿#include "GainRatio.h"
 
 
 float* gainRatio(std::vector<float*> values, std::vector<std::string> titles)
